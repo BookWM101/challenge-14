@@ -1,0 +1,22 @@
+{
+    "name": "cms-blog-app",
+    "version": "1.0.0",
+    "description": "A CMS-style blog site using MongoDB, Handlebars.js, and Sequelize ORM",
+    "main": "app.js",
+    "scripts": {
+        "start": "node app.js",
+        "seed": "node seeds/seed.js"
+    },
+    "dependencies": {
+        "bcrypt": "^5.0.1",
+        "bootstrap": "^4.6.0",
+        "connect-mongo": "^4.6.0",
+        "dotenv": "^16.0.1",
+        "express": "^4.17.3",
+        "express-handlebars": "^8.0.1",
+        "express-session": "^1.17.3",
+        "mongoose": "^6.0.12",
+        "mysql2": "^2.3.3",
+        "sequelize": "^6.6.5"
+    }
+}

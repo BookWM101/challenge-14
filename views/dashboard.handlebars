@@ -1,0 +1,15 @@
+<h1>Your Dashboard</h1>
+<a href="/post/new">Create New Post</a>
+{{#if posts.length}}
+  <ul>
+    {{#each posts}}
+      <li>
+        <a href="/post/{{this._id}}">{{this.title}}</a>
+        <a href="/post/edit/{{this._id}}">Edit</a>
+        <a href="/post/delete/{{this._id}}">Delete</a>
+      </li>
+    {{/each}}
+  </ul>
+{{else}}
+  <p>No posts created yet.</p>
+{{/if}}

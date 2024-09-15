@@ -1,0 +1,15 @@
+<h1>{{post.title}}</h1>
+<p>{{post.content}}</p>
+<p>By: {{post.user}} on {{post.dateCreated}}</p>
+{{#if loggedIn}}
+  <form action="/post/{{post._id}}/comment" method="POST">
+    <label for="comment">Add a Comment:</label>
+    <textarea id="comment" name="comment" required></textarea>
+    <button type="submit">Submit</button>
+  </form>
+{{/if}}
+<ul>
+  {{#each post.comments}}
+    <li>{{this.user}}: {{this.comment}} - {{this.dateCreated}}</li>
+  {{/each}}
+</ul>
