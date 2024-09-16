@@ -31,10 +31,39 @@ app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
 // Define routes and middleware here
+const userRoutes = require('./routes/userRoutes');
+const postRoutes = require('./routes/postRoutes');
+const authRoutes = require('./routes/authRoutes');
+
+
+app.use('/api/users', userRoutes);
+app.use('/api/posts', postRoutes);
+app.use('/api/login', authRoutes);
+app.use('/api/signup', authRoutes);
+
+
 // Example route
 app.get('/', (req, res) => {
     res.render('homepage');
 });
+
+app.get('/', (req, res) => {
+    res.render('login');
+});
+
+app.get('/', (req, res) => {
+    res.render('signup');
+});
+
+app.get('/', (req, res) => {
+    res.render('post');
+});
+
+app.get('/', (req, res) => {
+    res.render('dashboard');
+});
+
+
 
 // Start the server
 app.listen(3000, () => {

@@ -17,6 +17,17 @@ router.post('/new', async (req, res) => {
   res.redirect('/dashboard');
 });
 
+
+//Get all posts
+router.get('/', async (req, res) => {
+  try {
+    const posts = await Post.find();
+    res.json(posts);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 // Get single post with comments
 router.get('/:id', async (req, res) => {
   const post = await Post.findById(req.params.id).populate('user comments');
