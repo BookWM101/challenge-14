@@ -10,14 +10,19 @@ router.get('/login', (req, res) => {
 
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
-  const user = await User.findOne({ username });
+  try {
+    const user = await User.findOne({ username });
 
-  if (!user || !await bcrypt.compare(password, user.password)) {
-    return res.status(400).send('Invalid credentials');
+    if (!user || !await bcrypt.compare(password, user.password)) {
+      return res.status(400).send('Invalid credentials');
+    }
+
+    req.session.userId = user._id;
+    res.redirect('/');
+  } catch (error) {
+    console.error('Error during login:', error);
+    res.status(500).send('Internal Server Error');
   }
-
-  req.session.userId = user._id;
-  res.redirect('/');
 });
 
 // Signup route
@@ -27,13 +32,22 @@ router.get('/signup', (req, res) => {
 
 router.post('/signup', async (req, res) => {
   const { username, password } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10);
+  try {
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return res.status(400).send('Username already exists');
+    }
 
-  const newUser = new User({ username, password: hashedPassword });
-  await newUser.save();
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({ username, password: hashedPassword });
+    await newUser.save();
 
-  req.session.userId = newUser._id;
-  res.redirect('/');
+    req.session.userId = newUser._id;
+    res.redirect('/login'); // Redirect to login page after signup
+  } catch (error) {
+    console.error('Error during signup:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 // Logout route

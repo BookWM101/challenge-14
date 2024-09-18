@@ -25,6 +25,9 @@ app.use(session({
     })
 }));
 
+// Serve static files
+app.use(express.static(path.join(__dirname, 'public'))); // Ensure 'public' contains your CSS
+
 // Set up Handlebars as the template engine
 app.engine('handlebars', exphbs.create({ /* options */ }).engine);
 app.set('view engine', 'handlebars');
@@ -35,37 +38,36 @@ const userRoutes = require('./routes/userRoutes');
 const postRoutes = require('./routes/postRoutes');
 const authRoutes = require('./routes/authRoutes');
 
+// Use appropriate route prefixes
+app.use('/api', authRoutes); // Match the prefix used in your forms
 
 app.use('/api/users', userRoutes);
-app.use('/api/posts', postRoutes);
-app.use('/api/login', authRoutes);
-app.use('/api/signup', authRoutes);
+app.use('/posts', postRoutes);
 
-
-// Example route
+// Define specific routes
 app.get('/', (req, res) => {
     res.render('homepage');
 });
 
-app.get('/', (req, res) => {
+app.get('/login', (req, res) => {
     res.render('login');
 });
 
-app.get('/', (req, res) => {
+app.get('/signup', (req, res) => {
     res.render('signup');
 });
 
-app.get('/', (req, res) => {
+app.get('/post', (req, res) => {
     res.render('post');
 });
 
-app.get('/', (req, res) => {
+app.get('/dashboard', (req, res) => {
     res.render('dashboard');
 });
-
-
 
 // Start the server
 app.listen(3000, () => {
     console.log('Server is running on http://localhost:3000');
 });
+
+
